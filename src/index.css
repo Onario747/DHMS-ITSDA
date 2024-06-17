@@ -20,7 +20,7 @@
 }
 
 .padding-x {
-  @apply px-6 lg:px-16;
+  @apply px-[1.3rem] lg:px-16;
 }
 
 .flexCenter {
