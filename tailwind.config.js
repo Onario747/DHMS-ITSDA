@@ -8,7 +8,8 @@ export default {
         poppins: ["Poppins", "sans-serif"],
         robotoCondensed: ["Roboto Condensed", "sans-serif"],
         bebasNeue: ["Bebas Neue", "sans-serif"],
-        lato: ["Lato, sans-serif"],
+        lato: ["Lato", "sans-serif"],
+        openSans: ["Open Sans", "sans-serif"],
       },
       colors: {
         blue: {

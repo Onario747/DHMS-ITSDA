@@ -35,7 +35,7 @@ const Navigation = () => {
           <p className="text-[0.9rem] cursor-pointer hover:text-blue-70">
             Login
           </p>
-          <p className="text-[0.9rem] cursor-pointer bg-blue-70 border border-blue-70 text-white p-2 rounded-md primary-blue-hover">
+          <p className="text-[0.9rem] cursor-pointer primary-blue-button primary-blue-hover">
             Sign-up
           </p>
         </div>
