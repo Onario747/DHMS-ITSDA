@@ -43,7 +43,7 @@ const SignUp = () => {
     <>
       {/* Desktop View */}
       <section className="max-container flexCenter gap-2 max-md:hidden">
-        <div className="relative flex flex-col items-center w-[70%] py-[6rem] bg-[#e8f1f7] rounded-r-3xl h-svh">
+        <div className="relative flex flex-col items-center w-[70%] pt-[6rem] px-[3rem] bg-[#e8f1f7] rounded-r-3xl h-svh">
           <Link
             to="/"
             className="absolute left-[2rem] top-[3rem] flex items-center gap-2 text-blue-70"
@@ -62,7 +62,7 @@ const SignUp = () => {
               </label>
               <input
                 type="text"
-                className="h-[35px] w-[25rem] rounded-md outline-none pl-3"
+                className="h-[35px]  rounded-md outline-none pl-3"
                 placeholder="Enter Company Name"
               />
             </div>
@@ -72,17 +72,17 @@ const SignUp = () => {
               </label>
               <input
                 type="text"
-                className="w-[25rem] h-[35px] rounded-md font-montserrat outline-none pl-3"
+                className=" h-[35px] rounded-md font-montserrat outline-none pl-3"
                 placeholder="Enter Company Email"
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               <label className="font-medium font-poppins text-blue-70">
                 Contact Number
               </label>
               <input
                 type="text"
-                className="w-[25rem] h-[35px] rounded-md font-montserrat outline-none pl-3"
+                className="h-[35px] rounded-md font-montserrat outline-none pl-3"
                 placeholder="Enter Contact Number"
               />
             </div>
@@ -93,7 +93,7 @@ const SignUp = () => {
               <div className="relative w-full">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-[25rem] h-[35px] rounded-md font-montserrat outline-none pl-3 pr-10"
+                  className="w-[25rem] h-[35px] rounded-md font-montserrat outline-none pl-3"
                   value={password}
                   onChange={handlePasswordChange}
                   required
@@ -128,9 +128,87 @@ const SignUp = () => {
       </section>
 
       {/* Mobile View */}
-      <section className="md:hidden">
-
-      </section>
+      <div className="max-container padding-x pt-6 md:hidden">
+        <Link to="/" className="flex items-center gap-2 text-blue-70 pb-2">
+          <span className="font-poppins text-[0.9rem]">Back Home</span>
+          <IoIosArrowRoundForward />
+        </Link>
+        <section className="md:hidden max-container padding-x flex items-center flex-col pt-[1rem]">
+          <img src={itsaLogo} className="" alt="Logo Image" />
+          <div className="pt-[2rem] flex items-center flex-col">
+            <img src={signUpImg} width="50%" alt="sign up svg" />
+            <h1 className="font-poppins font-medium text-[1.7rem] py-4 text-blue-70">
+              Create an Account
+            </h1>
+            <form action="" className="flex flex-col items-start gap-4">
+              <div className="flex flex-col gap-2 w-full">
+                <label className="font-medium font-poppins text-blue-70">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  className="h-[35px] rounded-md outline-none pl-3 border border-gray-500"
+                  placeholder="Enter Company Name"
+                />
+              </div>
+              <div className="flex flex-col w-full">
+                <label className="font-medium font-poppins text-blue-70">
+                  Email Address
+                </label>
+                <input
+                  type="text"
+                  className=" h-[35px] rounded-md font-montserrat outline-none pl-3 border border-gray-500"
+                  placeholder="Enter Company Email"
+                />
+              </div>
+              <div className="flex flex-col w-full">
+                <label className="font-medium font-poppins text-blue-70">
+                  Contact Number
+                </label>
+                <input
+                  type="text"
+                  className=" h-[35px] rounded-md font-montserrat outline-none pl-3 border border-gray-500"
+                  placeholder="Enter Contact Number"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="font-medium font-poppins text-blue-70">
+                  Password
+                </label>
+                <div className="relative w-full">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className=" h-[35px] rounded-md font-montserrat outline-none pl-3 pr-10 border border-gray-500"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
+                    placeholder="Enter a secure password"
+                  />
+                  {password && (
+                    <button
+                      type="button"
+                      onClick={toggleShowPassword}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  )}
+                </div>
+              </div>
+              {password && <p>Password Strength: {getStrengthLabel(score)}</p>}
+              <button className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2">
+                Create Account
+              </button>
+            </form>
+            <span className="pt-4 font-montserrat text-[0.9rem]">
+              Have an account already?{" "}
+              <a href="/" className="text-blue-70">
+                Sign in
+              </a>
+            </span>
+          </div>
+        </section>
+      </div>
     </>
   );
 };
