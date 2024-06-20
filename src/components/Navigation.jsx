@@ -18,7 +18,7 @@ const Navigation = () => {
     height: isMobileNavOpen ? "auto" : 0,
     opacity: isMobileNavOpen ? 1 : 0,
     transform: isMobileNavOpen ? "translateY(0)" : "translateY(-20px)",
-    config: { tension: 300, friction: 50 },
+    config: { tension: 200, friction: 50 },
   });
 
   const toggleMenu = () => {
@@ -69,10 +69,10 @@ const Navigation = () => {
 
       {/* Animated mobile navigation */}
       <animated.div
-        className="md:hidden mt-4 overflow-hidden rounded-md border shadow-md"
+        className="md:hidden mt-4 overflow-hidden rounded-md border border-blue-70"
         style={menuAnimation}
       >
-        <div className="p-4 rounded-b-md shadow-xl">
+        <div className="p-4 rounded-b-md">
           <div className="flex gap-1 flex-col">
             {navLinks.map((item, index) => (
               <a

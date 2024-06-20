@@ -117,9 +117,9 @@ const SignUp = () => {
           </form>
           <span className="pt-4 font-montserrat text-[0.9rem]">
             Have an account already?{" "}
-            <a href="/" className="text-blue-70">
+            <Link to="/login" className="text-blue-70">
               Sign in
-            </a>
+            </Link>
           </span>
         </div>
         <div className="px-[4rem] flex items-center justify-center">
@@ -202,9 +202,9 @@ const SignUp = () => {
             </form>
             <span className="pt-4 font-montserrat text-[0.9rem]">
               Have an account already?{" "}
-              <a href="/" className="text-blue-70">
+              <Link to="/login" className="text-blue-70">
                 Sign in
-              </a>
+              </Link>
             </span>
           </div>
         </section>

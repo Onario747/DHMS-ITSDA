@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import login from "../assets/icons/login.svg";
 import itsaLogo from "../assets/images/itsalogo.png";
 
 const Login = () => {
+  const [accountType, setAccountType] = useState("");
+
+  const handleSelectChange = (event) => {
+    setAccountType(event.target.value);
+  };
   return (
     <>
       <section className="max-container flexCenter gap-2 max-md:hidden">
@@ -42,6 +48,21 @@ const Login = () => {
                 placeholder="******"
               />
             </div>
+            <div className="w-full">
+              <select
+                name="accountType"
+                id="accountType"
+                className="w-full font-poppins py-[5px] px-[12px] rounded-md border-2 border-blue-70"
+                value={accountType}
+                onChange={handleSelectChange}
+              >
+                <option value="" disabled>
+                  Account type
+                </option>
+                <option value="Admin">Admin</option>
+                <option value="Staff">Staff</option>
+              </select>
+            </div>
             <div className="flex gap-2 justify-between w-full">
               <div className="flex gap-2 font-poppins text-[0.8rem]">
                 <input type="checkbox" name="" id="" />
@@ -57,9 +78,9 @@ const Login = () => {
           </form>
           <span className="pt-4 font-montserrat text-[0.9rem]">
             Dont&apos;t have an account?{" "}
-            <a href="/" className="text-blue-70">
+            <Link to="/signup" className="text-blue-70">
               Create New
-            </a>
+            </Link>
           </span>
         </div>
         <div className="px-[4rem] flex items-center justify-center">
@@ -105,6 +126,21 @@ const Login = () => {
                   placeholder="******"
                 />
               </div>
+              <div className="w-full">
+                <select
+                  name="accountType"
+                  id="accountType"
+                  className="w-full font-poppins py-[5px] px-[12px] rounded-md border border-blue-70"
+                  value={accountType}
+                  onChange={handleSelectChange}
+                >
+                  <option value="" disabled>
+                    Account type
+                  </option>
+                  <option value="Admin">Admin</option>
+                  <option value="Staff">Staff</option>
+                </select>
+              </div>
               <div className="flex gap-2 justify-between w-full">
                 <div className="flex gap-2 font-poppins text-[0.8rem]">
                   <input type="checkbox" name="" id="" />
@@ -120,9 +156,9 @@ const Login = () => {
             </form>
             <span className="pt-4 font-montserrat text-[0.9rem]">
               Dont&apos;t have an account?{" "}
-              <a href="/" className="text-blue-70">
+              <Link to="/signup" className="text-blue-70">
                 Create New
-              </a>
+              </Link>
             </span>
           </div>
         </section>
