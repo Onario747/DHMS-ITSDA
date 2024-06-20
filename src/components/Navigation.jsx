@@ -85,9 +85,12 @@ const Navigation = () => {
             ))}
           </div>
           <div className="flex gap-2 pt-2 font-montserrat">
-            <p className="text-[0.9rem] cursor-pointer hover:text-blue-70 border w-fit border-blue-70 p-2 rounded-md">
+            <Link
+              to="/login"
+              className="text-[0.9rem] cursor-pointer hover:text-blue-70 border w-fit border-blue-70 p-2 rounded-md"
+            >
               Login
-            </p>
+            </Link>
           </div>
         </div>
       </animated.div>

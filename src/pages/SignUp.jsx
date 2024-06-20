@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { IoIosArrowRoundForward } from "react-icons/io";
+import { Link } from "react-router-dom";
 import zxcvbn from "zxcvbn";
 import signUpImg from "../assets/icons/signup.svg";
 import itsaLogo from "../assets/images/itsalogo.png";
@@ -39,7 +41,14 @@ const SignUp = () => {
 
   return (
     <section className="max-container flexCenter gap-2">
-      <div className="flex flex-col items-center w-[70%] py-[6rem] bg-[#e8f1f7] h-svh">
+      <div className="relative flex flex-col items-center w-[70%] py-[6rem] bg-[#e8f1f7] rounded-r-3xl h-svh">
+        <Link
+          to="/"
+          className="absolute left-[20px] top-[3rem] flex items-center gap-2 text-blue-70"
+        >
+          <span className="font-poppins text-[0.9rem]">Back Home</span>
+          <IoIosArrowRoundForward />
+        </Link>
         <img src={itsaLogo} className="" alt="Logo Image" />
         <h1 className="font-poppins font-medium text-[2rem] py-4 text-blue-70">
           Create an Account

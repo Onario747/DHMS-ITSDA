@@ -4,7 +4,7 @@ import itsaLogo from "../assets/images/itsalogo.png";
 const Login = () => {
   return (
     <section className="max-container flexCenter gap-2">
-      <div className="flex flex-col items-center w-[60%] py-[6rem] bg-[#e8f1f7] h-svh">
+      <div className="flex flex-col items-center w-[60%] py-[6rem] bg-[#e8f1f7] rounded-r-3xl h-svh">
         <img src={itsaLogo} className="" alt="Logo Image" />
         <h1 className="font-poppins font-medium text-[2rem] py-4 text-blue-70">
           Login into your Account
@@ -17,7 +17,7 @@ const Login = () => {
             <input
               type="text"
               className="h-[30px] w-[25rem] rounded-md outline-none pl-3"
-              placeholder="John Doe"
+              placeholder="john@mail.com"
             />
           </div>
           <div className="flex flex-col w-full gap-2">
