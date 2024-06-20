@@ -1,7 +1,7 @@
 const Sponsors = () => {
   const companyLogo = [
     {
-      src: "https://d12tbd6xzgxi73.cloudfront.net/app/uploads/2024/01/Idaho.svg",
+      src: "https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/remote_mondaycom_static/img/customers/logos-v2/bd.png",
     },
     {
       src: "https://www.ninjaone.com/wp-content/uploads/2023/03/nvidia-logo.svg",
@@ -23,7 +23,12 @@ const Sponsors = () => {
       </h1>
       <div className="grid grid-cols-5 items-center max-md:grid-cols-3 max-sm:gap-4 gap-[4rem] pt-7">
         {companyLogo.map((item, index) => (
-          <img src={item.src} alt="logo" className="w-[8rem] object-contain" key={index} />
+          <img
+            src={item.src}
+            alt="logo"
+            className="w-[8rem] object-contain"
+            key={index}
+          />
         ))}
       </div>
     </div>

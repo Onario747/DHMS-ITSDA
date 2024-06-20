@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import itsaLogo from "../assets/images/itsalogo.png";
-import { useSpring, animated } from "react-spring";
+import { animated, useSpring } from "react-spring";
 
 const navLinks = [
   { title: "About", href: "/about" },
@@ -28,7 +28,11 @@ const Navigation = () => {
     <header className="max-container w-full padding-x pt-4">
       <nav className="flex items-center justify-between">
         <a href="/">
-          <img src={itsaLogo} className="w-[9rem]" alt="logo" />
+          <img
+            src={itsaLogo}
+            className="w-[9rem]"
+            alt="logo"
+          />
         </a>
         <div className={`flex gap-8 max-md:hidden`}>
           {navLinks.map((item, index) => (
@@ -42,12 +46,12 @@ const Navigation = () => {
           ))}
         </div>
         <div className="flex items-center gap-8 font-montserrat max-md:hidden">
-          <p className="text-[0.9rem] cursor-pointer hover:text-blue-70">
+          <a href="/login" className="text-[0.9rem] cursor-pointer hover:text-blue-70">
             Login
-          </p>
-          <p className="text-[0.9rem] cursor-pointer primary-blue-button primary-blue-hover">
+          </a>
+          <a href="signup" className="text-[0.9rem] cursor-pointer primary-blue-button primary-blue-hover">
             Sign-up
-          </p>
+          </a>
         </div>
         <div className="flex items-center gap-3 md:hidden">
           <p className="text-[0.9rem] cursor-pointer font-montserrat primary-blue-button primary-blue-hover">
@@ -58,7 +62,10 @@ const Navigation = () => {
       </nav>
 
       {/* Animated mobile navigation */}
-      <animated.div className="md:hidden mt-4 overflow-hidden rounded-md border shadow-md" style={menuAnimation}>
+      <animated.div
+        className="md:hidden mt-4 overflow-hidden rounded-md border shadow-md"
+        style={menuAnimation}
+      >
         <div className="p-4 rounded-b-md shadow-xl">
           <div className="flex gap-1 flex-col">
             {navLinks.map((item, index) => (
