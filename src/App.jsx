@@ -7,7 +7,8 @@ import SignUp from "./pages/SignUp";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
+      <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -16,6 +17,7 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
+    </>
   );
 }
 
