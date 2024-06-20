@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import SignUp from "./pages/SignUp";
+import SuperAdmin from "./pages/SuperAdmin";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,6 +21,10 @@ function App() {
     {
       path: "/signup",
       element: <SignUp />,
+    },
+    {
+      path: "/superadminlogmein",
+      element: <SuperAdmin />,
     },
   ]);
   return (

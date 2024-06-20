@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import login from "../assets/icons/login.svg";
 import itsaLogo from "../assets/images/itsalogo.png";
 
 const Login = () => {
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    alert(data);
+  };
   const [accountType, setAccountType] = useState("");
 
   const handleSelectChange = (event) => {
@@ -20,19 +25,23 @@ const Login = () => {
           <span className="font-poppins text-[0.9rem]">Back Home</span>
           <IoIosArrowRoundForward />
         </Link>
-        <div className="flex flex-col items-center w-[60%] py-[6rem] bg-[#e8f1f7] rounded-r-3xl h-svh">
+        <div className="flex flex-col items-center w-[60%] py-[6rem] bg-[#e8f1f7] rounded-r-3xl h-screen">
           <Link to="/">
             <img src={itsaLogo} className="" alt="Logo Image" />
           </Link>
           <h1 className="font-poppins font-medium text-[2rem] py-4 text-blue-70">
             Login into your Account
           </h1>
-          <form className="flex flex-col items-center gap-4">
+          <form
+            className="flex flex-col items-center gap-4"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="flex flex-col w-full gap-3">
               <label className="font-medium font-poppins text-blue-70">
                 Email Address
               </label>
               <input
+                {...register("email")}
                 type="text"
                 className="h-[30px] w-[25rem] rounded-md outline-none pl-3"
                 placeholder="john@mail.com"
@@ -43,7 +52,8 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="text"
+                {...register("password")}
+                type="password"
                 className="h-[30px] w-[25rem] rounded-md outline-none pl-3"
                 placeholder="******"
               />
@@ -72,7 +82,10 @@ const Login = () => {
                 Forgot Password?
               </a>
             </div>
-            <button className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2">
+            <button
+              type="submit"
+              className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2"
+            >
               Login
             </button>
           </form>
@@ -105,12 +118,16 @@ const Login = () => {
             <h1 className="font-poppins font-medium text-[1.7rem] text-center py-4 text-blue-70">
               Login into your Account
             </h1>
-            <form className="flex flex-col items-center gap-4">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col items-center gap-4"
+            >
               <div className="flex flex-col w-full gap-3">
                 <label className="font-medium font-poppins text-blue-70">
                   Email Address
                 </label>
                 <input
+                  {...register("email")}
                   type="text"
                   className="h-[30px] rounded-md outline-none pl-3 border border-gray-500"
                   placeholder="john@mail.com"
@@ -121,6 +138,7 @@ const Login = () => {
                   Password
                 </label>
                 <input
+                  {...register("password")}
                   type="text"
                   className="h-[30px] rounded-md outline-none pl-3 border border-gray-500"
                   placeholder="******"
@@ -150,7 +168,10 @@ const Login = () => {
                   Forgot Password?
                 </a>
               </div>
-              <button className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2">
+              <button
+                type="submit"
+                className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2"
+              >
                 Login
               </button>
             </form>

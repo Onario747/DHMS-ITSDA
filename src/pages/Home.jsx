@@ -1,4 +1,5 @@
-import Hero from "../components/Hero"
+import Hero from "../components/Hero";
+import KeyFeatures from "../components/KeyFeatures";
 import Navigation from "../components/Navigation";
 import Sponsors from "../components/Sponsors";
 import SubFeatureHeadline1 from "../components/Sub-Feature-Headline1";
@@ -14,6 +15,7 @@ const Home = () => {
       <SubFeature />
       <SubFeatureHeadline1 />
       <SubFeautureCard />
+      <KeyFeatures />
     </main>
   );
 };
