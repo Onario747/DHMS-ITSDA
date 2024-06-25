@@ -22,10 +22,8 @@ import StaffDashboard from "./pages/dashboards/StaffDashboard";
 import SuperAdminDashboard from "./pages/dashboards/SuperAdminDashboard";
 import TechnicianDashboard from "./pages/dashboards/TechnicianDashboard";
 import Login from "./pages/Login";
-import LoginEdited from "./pages/LoginEdited";
 import NoPage from "./pages/NoPage";
 import SignUp from "./pages/SignUp";
-import SignUpEdited from "./pages/SignUpEdited";
 import SuperAdmin from "./pages/SuperAdmin";
 
 function App() {
@@ -38,14 +36,6 @@ function App() {
     {
       path: "/login",
       element: <Login />,
-    },
-    {
-      path: "/signupedited",
-      element: <SignUpEdited />,
-    },
-    {
-      path: "/loginedited",
-      element: <LoginEdited />,
     },
     {
       path: "/signup",
