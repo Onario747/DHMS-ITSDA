@@ -24,7 +24,7 @@ import TechnicianDashboard from "./pages/dashboards/TechnicianDashboard";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import SignUp from "./pages/SignUp";
-import SuperAdmin from "./pages/SuperAdmin";
+import SuperAdminLogin from "./pages/SuperAdminLogin";
 
 function App() {
   const router = createBrowserRouter([
@@ -38,12 +38,12 @@ function App() {
       element: <Login />,
     },
     {
-      path: "/signup",
-      element: <SignUp />,
+      path: "/super-admin-login",
+      element: <SuperAdminLogin />,
     },
     {
-      path: "/superadminlogmein",
-      element: <SuperAdmin />,
+      path: "/signup",
+      element: <SignUp />,
     },
     {
       path: "/organization",
