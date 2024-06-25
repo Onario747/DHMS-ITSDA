@@ -1,20 +1,48 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { CgSpinner } from "react-icons/cg";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import loginApiClient from "../../axios/axiosLogin";
 import login from "../assets/icons/login.svg";
 import itsaLogo from "../assets/images/itsalogo.png";
+import { useAdmin } from "../context/AdminContext"; // Import useAdmin
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    alert(data);
-  };
+  const navigate = useNavigate();
+  const { fetchAdminProfile } = useAdmin(); // Destructure fetchAdminProfile
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [accountType, setAccountType] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectChange = (event) => {
     setAccountType(event.target.value);
   };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = {
+      email: email,
+      password: password,
+      role: accountType.toLowerCase(),
+    };
+    try {
+      const response = await loginApiClient.post("/login", formData);
+      await fetchAdminProfile();
+      console.log(response.data)// Fetch and set the admin profile after login
+      if (accountType === "staff") {
+        navigate("/staff/dashboard");
+      } else if (accountType === "sub-admin") {
+        navigate("/organization/dashboard");
+      }
+    } catch (error) {
+      console.error("Error", error);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <section className="max-container flexCenter gap-2 max-md:hidden">
@@ -34,17 +62,20 @@ const Login = () => {
           </h1>
           <form
             className="flex flex-col items-center gap-4"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleLogin}
           >
             <div className="flex flex-col w-full gap-3">
               <label className="font-medium font-poppins text-blue-70">
                 Email Address
               </label>
               <input
-                {...register("email")}
-                type="text"
+                type="email"
                 className="h-[30px] w-[25rem] rounded-md outline-none pl-3"
                 placeholder="john@mail.com"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -52,10 +83,13 @@ const Login = () => {
                 Password
               </label>
               <input
-                {...register("password")}
                 type="password"
                 className="h-[30px] w-[25rem] rounded-md outline-none pl-3"
                 placeholder="******"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="w-full">
@@ -65,12 +99,13 @@ const Login = () => {
                 className="w-full font-poppins py-[5px] px-[12px] rounded-md border-2 border-blue-70"
                 value={accountType}
                 onChange={handleSelectChange}
+                required
               >
                 <option value="" disabled>
                   Account type
                 </option>
-                <option value="Admin">Admin</option>
-                <option value="Staff">Staff</option>
+                <option value="sub-admin">Sub-Admin</option>
+                <option value="staff">Staff</option>
               </select>
             </div>
             <div className="flex gap-2 justify-between w-full">
@@ -83,14 +118,17 @@ const Login = () => {
               </a>
             </div>
             <button
-              type="submit"
-              className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2"
+              className="flex items-center justify-center gap-2 rounded-md w-full py-2 mt-2 bg-blue-70 text-white disabled:bg-slate-400 disabled:cursor-not-allowed transition-all"
+              disabled={isLoading}
             >
-              Login
+              {isLoading && (
+                <CgSpinner className="animate-spin text-[1.37rem]" />
+              )}
+              <span className={`font-poppins `}>Login</span>
             </button>
           </form>
           <span className="pt-4 font-montserrat text-[0.9rem]">
-            Dont&apos;t have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link to="/signup" className="text-blue-70">
               Create New
             </Link>
@@ -119,7 +157,7 @@ const Login = () => {
               Login into your Account
             </h1>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleLogin}
               className="flex flex-col items-center gap-4"
             >
               <div className="flex flex-col w-full gap-3">
@@ -127,10 +165,13 @@ const Login = () => {
                   Email Address
                 </label>
                 <input
-                  {...register("email")}
-                  type="text"
+                  type="email"
                   className="h-[30px] rounded-md outline-none pl-3 border border-gray-500"
                   placeholder="john@mail.com"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex flex-col w-full gap-2">
@@ -138,25 +179,29 @@ const Login = () => {
                   Password
                 </label>
                 <input
-                  {...register("password")}
-                  type="text"
+                  type="password"
                   className="h-[30px] rounded-md outline-none pl-3 border border-gray-500"
                   placeholder="******"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
               <div className="w-full">
                 <select
                   name="accountType"
                   id="accountType"
-                  className="w-full font-poppins py-[5px] px-[12px] rounded-md border border-blue-70"
+                  className="w-full font-poppins py-[5px] px-[12px] rounded-md border-2 border-blue-70"
                   value={accountType}
                   onChange={handleSelectChange}
+                  required
                 >
                   <option value="" disabled>
                     Account type
                   </option>
-                  <option value="Admin">Admin</option>
-                  <option value="Staff">Staff</option>
+                  <option value="sub-admin">Sub-Admin</option>
+                  <option value="staff">Staff</option>
                 </select>
               </div>
               <div className="flex gap-2 justify-between w-full">
@@ -176,7 +221,7 @@ const Login = () => {
               </button>
             </form>
             <span className="pt-4 font-montserrat text-[0.9rem]">
-              Dont&apos;t have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link to="/signup" className="text-blue-70">
                 Create New
               </Link>

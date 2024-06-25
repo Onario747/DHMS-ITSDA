@@ -38,3 +38,4 @@
 .primary-blue-hover {
   @apply hover:text-blue-70 hover:bg-white hover:border transition-colors;
 }
+

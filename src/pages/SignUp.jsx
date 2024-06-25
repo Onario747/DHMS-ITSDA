@@ -1,15 +1,25 @@
 import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Toaster, toast } from "sonner";
+
+import { CgSpinner } from "react-icons/cg";
+import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import zxcvbn from "zxcvbn";
+import loginApiClient from "../../axios/axiosLogin";
 import signUpImg from "../assets/icons/signup.svg";
 import itsaLogo from "../assets/images/itsalogo.png";
 
 const SignUp = () => {
-  const [password, setPassword] = useState("");
-  const [score, setScore] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [score, setScore] = useState(0);
+  const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
@@ -39,10 +49,44 @@ const SignUp = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = {
+      email: email,
+      password: password,
+      name: companyName,
+      phone: contactNumber,
+    };
+    try {
+      const response = await loginApiClient.post("/signup", formData);
+      navigate("/organization/dashboard");
+      toast(
+        <div className="text-green-600 px-2 py-3 font-poppins font-medium text-[1.1rem] flex items-center gap-2 justify-center">
+          <FaCheckCircle />
+          <span>Sign-up successful</span>
+        </div>
+      );
+      console.log("success", response.data);
+    } catch (error) {
+      toast(
+        <div className="text-red-600 px-2 py-3 font-poppins font-medium text-[1.1rem] flex items-center gap-2 justify-center">
+          <FaCheckCircle />
+          <span>Login un-successful</span>
+        </div>
+      );
+      console.error("error", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Desktop View */}
       <section className="max-container flexCenter gap-2 max-md:hidden">
+        <Toaster position="top-center" />
         <div className="relative flex flex-col items-center w-[70%] pt-[6rem] px-[3rem] bg-[#e8f1f7] rounded-r-3xl h-svh">
           <Link
             to="/"
@@ -55,15 +99,21 @@ const SignUp = () => {
           <h1 className="font-poppins font-medium text-[2rem] py-4 text-blue-70">
             Create an Account
           </h1>
-          <form action="" className="flex flex-col items-center gap-4">
+          <form
+            onSubmit={handleSignUp}
+            className="flex flex-col items-center gap-4"
+          >
             <div className="flex flex-col gap-2 w-full">
               <label className="font-medium font-poppins text-blue-70">
                 Company Name
               </label>
               <input
                 type="text"
-                className="h-[35px]  rounded-md outline-none pl-3"
+                className="h-[35px] rounded-md outline-none pl-3"
                 placeholder="Enter Company Name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                required
               />
             </div>
             <div className="flex flex-col w-full">
@@ -71,9 +121,12 @@ const SignUp = () => {
                 Email Address
               </label>
               <input
-                type="text"
-                className=" h-[35px] rounded-md font-montserrat outline-none pl-3"
+                type="email"
+                className="h-[35px] rounded-md font-montserrat outline-none pl-3"
                 placeholder="Enter Company Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="flex flex-col w-full">
@@ -81,9 +134,12 @@ const SignUp = () => {
                 Contact Number
               </label>
               <input
-                type="text"
+                type="tel"
                 className="h-[35px] rounded-md font-montserrat outline-none pl-3"
                 placeholder="Enter Contact Number"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+                required
               />
             </div>
             <div className="flex flex-col">
@@ -111,8 +167,14 @@ const SignUp = () => {
               </div>
             </div>
             {password && <p>Password Strength: {getStrengthLabel(score)}</p>}
-            <button className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2">
-              Create Account
+            <button
+              className="flex items-center justify-center gap-2 rounded-md w-full py-2 mt-2 bg-blue-70 text-white disabled:bg-slate-400 disabled:cursor-not-allowed transition-all"
+              disabled={isLoading}
+            >
+              {isLoading && (
+                <CgSpinner className="animate-spin text-[1.37rem]" />
+              )}
+              <span className={`font-poppins `}>Create Account</span>
             </button>
           </form>
           <span className="pt-4 font-montserrat text-[0.9rem]">
@@ -140,7 +202,10 @@ const SignUp = () => {
             <h1 className="font-poppins font-medium text-[1.7rem] py-4 text-blue-70">
               Create an Account
             </h1>
-            <form action="" className="flex flex-col items-start gap-4">
+            <form
+              onSubmit={handleSignUp}
+              className="flex flex-col items-start gap-4"
+            >
               <div className="flex flex-col gap-2 w-full">
                 <label className="font-medium font-poppins text-blue-70">
                   Company Name
@@ -149,6 +214,9 @@ const SignUp = () => {
                   type="text"
                   className="h-[35px] rounded-md outline-none pl-3 border border-gray-500"
                   placeholder="Enter Company Name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex flex-col w-full">
@@ -156,9 +224,12 @@ const SignUp = () => {
                   Email Address
                 </label>
                 <input
-                  type="text"
-                  className=" h-[35px] rounded-md font-montserrat outline-none pl-3 border border-gray-500"
+                  type="email"
+                  className="h-[35px] rounded-md font-montserrat outline-none pl-3 border border-gray-500"
                   placeholder="Enter Company Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex flex-col w-full">
@@ -167,8 +238,11 @@ const SignUp = () => {
                 </label>
                 <input
                   type="text"
-                  className=" h-[35px] rounded-md font-montserrat outline-none pl-3 border border-gray-500"
+                  className="h-[35px] rounded-md font-montserrat outline-none pl-3 border border-gray-500"
                   placeholder="Enter Contact Number"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  required
                 />
               </div>
               <div className="flex flex-col">
@@ -178,7 +252,7 @@ const SignUp = () => {
                 <div className="relative w-full">
                   <input
                     type={showPassword ? "text" : "password"}
-                    className=" h-[35px] rounded-md font-montserrat outline-none pl-3 pr-10 border border-gray-500"
+                    className="h-[35px] rounded-md font-montserrat outline-none pl-3 pr-10 border border-gray-500"
                     value={password}
                     onChange={handlePasswordChange}
                     required
