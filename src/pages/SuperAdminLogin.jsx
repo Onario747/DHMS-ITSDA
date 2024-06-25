@@ -129,9 +129,16 @@ const SuperAdminLogin = () => {
           </div>
           <div className="pt-[2rem] flex items-center flex-col">
             <img src={superAdmin} width="50%" alt="sign up svg" />
-            <h1 className="font-poppins font-medium text-[1.7rem] text-center py-4 text-blue-70">
-              Login into your Account
+            <div className="py-4 text-center">
+            <h1 className="font-poppins font-medium text-[2rem] text-blue-70">
+              Welcome to the Super Admin Sign-in Portal
             </h1>
+            <p className="font-montserrat text-[0.9rem]">
+              Enter your registered email and Staff ID to access your account.
+              If you need help with your login details, contact your
+              company&apos;s IT administrator for assistance.
+            </p>
+          </div>
             <form
               onSubmit={handleLogin}
               className="flex flex-col items-center gap-4"
