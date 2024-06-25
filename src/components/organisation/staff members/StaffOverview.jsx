@@ -22,6 +22,22 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [records, setRecords] = useState([]);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStaffMembers = async () => {
+      try {
+        const response = await requestClient.get("/sub-admin/staffs");
+        setStaffMembers(response.data.staffs);
+      } catch (error) {
+        console.error("Error fetching staff members", error);
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    fetchStaffMembers();
+  }, [setStaffMembers]);
 
   useEffect(() => {
     // Initialize records when staffMembers prop changes
@@ -43,7 +59,7 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
         formData
       );
       setModalOpen(false);
-      console.log(response.data)
+      console.log(response.data);
       toast(
         <div className="text-green-600 px-2 py-4 font-poppins font-medium flex items-center gap-2 justify-center">
           <FaCheckCircle className="text-[1.1rem]" />
@@ -121,7 +137,13 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
             Assign Device
           </button>
         </div>
-        {staffMembers && staffMembers.length > 0 ? (
+        {initialLoading ? (
+          <div className="flex justify-center items-center py-4">
+            <span className="font-poppins text-gray-500 text-[1rem] font-medium">
+              Loading...
+            </span>
+          </div>
+        ) : staffMembers && staffMembers.length > 0 ? (
           <div className="flex flex-col w-full gap-2">
             <input
               type="text"

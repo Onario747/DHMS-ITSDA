@@ -1,3 +1,4 @@
+import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { FaSignOutAlt, FaUsers } from "react-icons/fa";
 import { GrHostMaintenance } from "react-icons/gr";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
@@ -18,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
 const OrganizationDashboard = () => {
   const dashboardLinks = [
@@ -42,11 +44,21 @@ const OrganizationDashboard = () => {
     { icon: <FaSignOutAlt />, title: "Sign Out", path: "sign-out" },
   ];
 
+  const [reduceNavigation, setReduceNavigation] = useState(false);
+
+  const reduceNav = () => {
+    setReduceNavigation((prevState) => !prevState);
+  };
+
   const { adminName } = useAdmin();
 
   return (
     <section className="max-container flex">
-      <div className="w-[18rem] z-10 bg-white px-[1.5rem] py-[1.5rem] fixed">
+      <div
+        className={`z-10 bg-white h-screen px-[1.5rem] py-[1.5rem] fixed ${
+          reduceNavigation && "hidden"
+        }`}
+      >
         <div className="w-[155px] pb-4">
           <img src={logo} className="object-contain h-full" alt="Logo" />
         </div>
@@ -64,13 +76,21 @@ const OrganizationDashboard = () => {
               }
             >
               {item.icon}
-              <span className="font-poppins">{item.title}</span>
+              <span className={`font-poppins ${reduceNavigation && "hidden"}`}>
+                {item.title}
+              </span>
             </NavLink>
           ))}
         </div>
       </div>
-      <div className="bg-[#f0f3ff] h-lvh w-full ml-[18rem]">
-        <div className="w-full border-b px-[2rem] flex items-center justify-between py-[1.5rem] border-gray-300 fixed top-0 bg-[#f0f3ff] z-20 pr-[20rem]">
+      <div className={`bg-[#f0f3ff] h-lvh w-full ml-[18rem] ${reduceNavigation && "ml-[5rem]"}`}>
+        <div className={`w-full border-b px-[2rem] flex items-center justify-between py-[1.5rem] border-gray-300 fixed top-0 bg-[#f0f3ff] z-20 pr-[20rem] ${reduceNavigation && "pr-0"}`}>
+          <div
+            className="rounded-full p-2 border border-gray-500 cursor-pointer"
+            onClick={reduceNav}
+          >
+            <AiOutlineMenuUnfold className="text-[1.8rem]" />
+          </div>
           <div className="flex items-center gap-2 border border-gray-500 w-fit rounded-full px-4 py-1">
             <IoSearchOutline />
             <input
@@ -123,7 +143,7 @@ const OrganizationDashboard = () => {
             </DropdownMenu>
           </div>
         </div>
-        <div className="pt-[6rem] px-[2rem] h-lvh">
+        <div className="pt-[6rem] px-[2rem] h-lvh w-full">
           <Outlet />
         </div>
       </div>
