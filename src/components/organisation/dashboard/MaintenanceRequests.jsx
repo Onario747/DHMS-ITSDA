@@ -4,7 +4,7 @@ const MaintenanceRequests = () => {
   return (
     <div className="bg-white rounded-xl px-4 py-3 shadow-md drop-shadow-md">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="font-poppins font-medium text-[1.4rem]">
+        <h1 className="font-poppins font-medium text-[1.4rem] max-md:text-[1.1rem]">
           Maintenance Requests
         </h1>
         <Link

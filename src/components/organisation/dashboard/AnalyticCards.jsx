@@ -11,12 +11,12 @@ const AnalyticCards = () => {
   const [maintenanceRequests, setMaintenanceRequests] = useState("0");
 
   const cardStyles =
-    "relative flex flex-col text-white rounded-xl px-[1.5rem] py-4 font-semibold overflow-hidden";
+    "relative flex flex-col gap-2 text-white rounded-xl px-[1.5rem] py-4 font-semibold overflow-hidden";
   const overlayStyles =
     "absolute inset-0 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg border border-solid border-white border-opacity-30";
 
   return (
-    <div className="grid grid-cols-4 gap-4 items-start">
+    <div className="grid grid-cols-4 max-md:grid-cols-2 gap-4 items-start">
       <div
         className={cardStyles}
         style={{ background: "linear-gradient(to right, #3c79ea, #607d8b)" }}
@@ -28,7 +28,9 @@ const AnalyticCards = () => {
             <MdDevices className="text-blue-600" />
           </div>
         </div>
-        <span className="relative font-poppins">Assigned Devices</span>
+        <span className="relative font-poppins max-md:text-[0.9rem]">
+          Assigned Devices
+        </span>
       </div>
       <div
         className={cardStyles}
@@ -41,7 +43,9 @@ const AnalyticCards = () => {
             <VscVmActive className="text-green-600" />
           </div>
         </div>
-        <span className="relative font-poppins">Healthy Devices</span>
+        <span className="relative font-poppins max-md:text-[0.9rem]">
+          Staff Personnel
+        </span>
       </div>
       <div
         className={cardStyles}

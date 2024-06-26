@@ -10,6 +10,7 @@ import {
 import { Bar } from "react-chartjs-2";
 
 import { barChartData } from "../../data";
+
 ChartJs.register(
   CategoryScale,
   Legend,
@@ -18,16 +19,18 @@ ChartJs.register(
   Title,
   Tooltip
 );
+
 const BarGraph = () => {
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         align: "end",
         labels: {
           font: {
-            family: "poppins",
+            family: "Poppins",
           },
           boxWidth: 10,
           usePointStyle: true,
@@ -54,15 +57,18 @@ const BarGraph = () => {
         },
       },
     },
-    categoryPercentage: 0.8, // Adjusts the overall width of the bars within each category
-    barPercentage: 0.9, // Adjusts the spacing between the bars
+    categoryPercentage: 0.8,
+    barPercentage: 0.9,
   };
+
   return (
-    <div className="w-[600px] bg-white rounded-xl px-4 pt-3 shadow-md drop-shadow-md">
-      <h1 className="font-poppins font-medium text-[1.4rem]">
-        Device Enrolled
+    <div className="w-full bg-white rounded-xl p-4 shadow-md drop-shadow-md">
+      <h1 className="font-poppins font-medium text-[1.4rem] max-md:text-[1.1rem] mb-4">
+        Devices Enrolled
       </h1>
-      <Bar options={options} data={barChartData} />
+      <div className="relative  h-80">
+        <Bar options={options} data={barChartData} />
+      </div>
     </div>
   );
 };

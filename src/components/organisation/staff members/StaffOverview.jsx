@@ -1,6 +1,3 @@
-import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
-import { Toaster, toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -9,20 +6,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaUserEdit } from "react-icons/fa";
 import { FiPlusSquare } from "react-icons/fi";
-import { MdOutlineWarning } from "react-icons/md";
+import {
+  MdDelete,
+  MdOutlineFilterList,
+  MdOutlineWarning,
+} from "react-icons/md";
+import { Toaster, toast } from "sonner";
 import requestClient from "../../../../axios/axiosRequest";
 import staffImg from "../../../assets/icons/staff.svg";
 
-const StaffOverview = ({ staffMembers, setStaffMembers }) => {
+const StaffOverview = ({ staffMembers, setStaffMembers, staffCount }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [records, setRecords] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [selectedStaff, setSelectedStaff] = useState(null);
 
   useEffect(() => {
     const fetchStaffMembers = async () => {
@@ -54,10 +60,7 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
     };
 
     try {
-      const response = await requestClient.post(
-        "/sub-admin/create-staff",
-        formData
-      );
+      const response = await requestClient.post("/sub-admin/staffs", formData);
       setModalOpen(false);
       console.log(response.data);
       toast(
@@ -90,25 +93,122 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
     }
   };
 
+  const editStaff = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = {
+      email: email,
+      name: fullName,
+    };
+
+    try {
+      const response = await requestClient.put(
+        `/sub-admin/staffs/${selectedStaff._id}`,
+        formData
+      );
+      setEditModalOpen(false);
+      console.log(response.data);
+      toast(
+        <div className="text-green-600 px-2 py-4 font-poppins font-medium flex items-center gap-2 justify-center">
+          <FaCheckCircle className="text-[1.1rem]" />
+          <span className="font-poppins text-[0.93rem]">
+            {fullName.charAt(0).toUpperCase() + fullName.slice(1).toLowerCase()}{" "}
+            has been edited successfully
+          </span>
+        </div>
+      );
+      setFullName("");
+      setEmail("");
+      // Fetch new staff members list or update state
+      const newResponse = await requestClient.get("/sub-admin/staffs");
+      setStaffMembers(newResponse.data.staffs);
+    } catch (error) {
+      toast.warning(
+        <div className="px-2 py-3 flex items-center gap-2 justify-center">
+          <MdOutlineWarning className="text-[1.2rem]" />
+          <span className="font-poppins text-[1.1rem]">
+            Failed to edit {fullName}
+          </span>
+        </div>
+      );
+      console.error("Error", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteStaff = async (staffId) => {
+    try {
+      await requestClient.delete(`/sub-admin/staffs/${staffId}`);
+      toast(
+        <div className="text-red-600 px-2 py-4 font-poppins font-medium flex items-center gap-2 justify-center">
+          <FaCheckCircle className="text-[1.1rem]" />
+          <span className="font-poppins text-[0.93rem]">
+            Staff has been deleted successfully
+          </span>
+        </div>
+      );
+      // Fetch new staff members list or update state
+      const newResponse = await requestClient.get("/sub-admin/staffs");
+      setStaffMembers(newResponse.data.staffs);
+    } catch (error) {
+      toast.warning(
+        <div className="px-2 py-3 flex items-center gap-2 justify-center">
+          <MdOutlineWarning className="text-[1.2rem]" />
+          <span className="font-poppins text-[1.1rem]">
+            Failed to delete staff
+          </span>
+        </div>
+      );
+      console.error("Error", error);
+    }
+  };
+
   const columns = [
     {
-      name: "Staff Id",
-      selector: (row) => row._id,
+      name: <span className="font-poppins text-[1rem]">Name</span>,
+      selector: (row) => (
+        <span className="font-poppins capitalize">{row.name}</span>
+      ),
       sortable: true,
     },
     {
-      name: "Name",
-      selector: (row) => row.name,
+      name: <span className="font-poppins text-[1rem]">Email</span>,
+      selector: (row) => <span className="font-poppins">{row.email}</span>,
       sortable: true,
     },
     {
-      name: "Email",
-      selector: (row) => row.email,
-      sortable: true,
+      name: <span className="font-poppins text-[1rem]">Role</span>,
+      selector: (row) => (
+        <span className="font-poppins capitalize">{row.role}</span>
+      ),
     },
     {
-      name: "Role",
-      selector: (row) => row.role,
+      name: <span className="font-poppins text-[1rem]">Actions</span>,
+      cell: (row) => (
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setSelectedStaff(row);
+              setFullName(row.name);
+              setEmail(row.email);
+              setEditModalOpen(true);
+            }}
+            className="text-white flex items-center gap-2 text-[1rem] bg-blue-500 font-poppins p-1 rounded-md"
+          >
+            <FaUserEdit />
+            <span className="text-white">Edit</span>
+          </button>
+          <button
+            onClick={() => deleteStaff(row._id)}
+            className="bg-red-500 text-white text-[1rem] font-poppins flex items-center gap-2 p-1 rounded-md"
+          >
+            <MdDelete />
+            <span>Delete</span>
+          </button>
+        </div>
+      ),
     },
   ];
 
@@ -123,15 +223,15 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
     <div className="pt-[2rem] flex flex-col justify-center">
       <Toaster position="top-right" richColors />
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <div className="flex items-center gap-2 justify-end">
+        <div className="flex items-center gap-2 justify-start">
           <DialogTrigger>
-            <button className="rounded-md bg-blue-70 text-white flexCenter p-2 gap-2">
+            <button className="rounded-md bg-blue-70 text-white flexCenter p-2 max-md:px-1.5 max-md:py-1 gap-2">
               <FiPlusSquare className="text-[1.4rem]" />
               <span className="font-poppins">Add Staff</span>
             </button>
           </DialogTrigger>
           <button
-            className="font-poppins p-2 border border-blue-70 rounded-md disabled:bg-gray-300 disabled:text-white disabled:border-none disabled:cursor-not-allowed"
+            className="font-poppins p-2 max-md:px-1.5 max-md:py-1 border border-blue-70 rounded-md disabled:bg-gray-300 disabled:text-white disabled:border-none disabled:cursor-not-allowed"
             disabled
           >
             Assign Device
@@ -145,12 +245,24 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
           </div>
         ) : staffMembers && staffMembers.length > 0 ? (
           <div className="flex flex-col w-full gap-2">
-            <input
-              type="text"
-              className="w-fit text-poppins pl-[15px] py-1 border border-blue-70 rounded-md"
-              onChange={handleFilter}
-              placeholder="Filter by name"
-            />
+            <div className="flex items-center justify-between pt-8 max-md:flex-col-reverse max-md:items-start gap-3">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="border border-gray-500 rounded-md p-1">
+                    <MdOutlineFilterList className="text-[1.3rem]" />
+                  </div>
+                  <input
+                    type="text"
+                    className="w-fit text-poppins pl-[15px] py-1 border border-blue-70 rounded-md"
+                    onChange={handleFilter}
+                    placeholder="Filter by name"
+                  />
+                </div>
+              </div>
+              <span className="text-2xl font-semibold font-poppins">
+                Staffs ({staffCount})
+              </span>
+            </div>
             <DataTable
               columns={columns}
               data={records}
@@ -226,6 +338,52 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
           </form>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogHeader>
+            <DialogTitle className="font-poppins text-blue-70 font-semibold text-[1.8rem]">
+              Edit Staff Member
+            </DialogTitle>
+            <DialogDescription>
+              <p className="text-gray-600 text-[0.88rem] font-poppins">
+                Update the details of the staff member below.
+              </p>
+            </DialogDescription>
+          </DialogHeader>
+          <form className="flex flex-col" onSubmit={editStaff}>
+            <label className="font-poppins pb-3 text-[1.2rem] font-medium">
+              Staff Profile:
+            </label>
+            <div className="flex flex-col gap-4">
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                className="h-[40px] font-montserrat bg-blue-100 rounded-md placeholder:text-gray-600 pl-[15px] outline-none font-medium"
+                placeholder="Staff full-name"
+              />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-[40px] font-montserrat bg-blue-100 rounded-md placeholder:text-gray-600 pl-[15px] outline-none font-medium"
+                placeholder="Staff email"
+              />
+              <button
+                className={`rounded-md bg-blue-70 text-white w-fit flexCenter px-5 py-2 gap-2 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all ${isLoading}`}
+                type="submit"
+                disabled={isLoading}
+              >
+                <FiPlusSquare className="text-[1.4rem]" />
+                <span className="font-poppins text-[1.1rem]">Update Staff</span>
+              </button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
@@ -233,6 +391,7 @@ const StaffOverview = ({ staffMembers, setStaffMembers }) => {
 StaffOverview.propTypes = {
   staffMembers: PropTypes.array.isRequired,
   setStaffMembers: PropTypes.func.isRequired,
+  staffCount: PropTypes.number.isRequired,
 };
 
 export default StaffOverview;

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { CgSpinner } from "react-icons/cg";
+import { FaCheckCircle } from "react-icons/fa";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 import loginApiClient from "../../axios/axiosLogin";
 import login from "../assets/icons/login.svg";
 import itsaLogo from "../assets/images/itsalogo.png";
@@ -14,6 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [accountType, setAccountType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(""); // Add state for error message
 
   const handleSelectChange = (event) => {
     setAccountType(event.target.value);
@@ -31,14 +34,41 @@ const Login = () => {
     try {
       const response = await loginApiClient.post("/login", formData);
       await fetchAdminProfile();
-      console.log(response.data)// Fetch and set the admin profile after login
+      console.log(response.data); // Fetch and set the admin profile after login
       if (accountType === "staff") {
         navigate("/staff/dashboard");
+        toast(
+          <div className="text-green-600 px-2 py-4 font-poppins font-medium flex items-center gap-2 justify-center">
+            <FaCheckCircle className="text-[1.1rem]" />
+            <span className="font-poppins text-[0.93rem]">
+              {email} has been successfully logged in
+            </span>
+          </div>
+        );
       } else if (accountType === "sub-admin") {
         navigate("/organization/dashboard");
       }
     } catch (error) {
       console.error("Error", error);
+      if (
+        accountType === "staff" &&
+        error.response &&
+        error.response.status === 401
+      ) {
+        setError("This email is not registered as a staff member.");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
+
+      if (
+        accountType === "sub-admin" &&
+        error.response &&
+        error.response.status === 401
+      ) {
+        setError("Username or Password not correct");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
       setIsLoading(false);
     }
   };
@@ -46,6 +76,7 @@ const Login = () => {
   return (
     <>
       <section className="max-container flexCenter gap-2 max-md:hidden">
+        <Toaster position="top-right" richColors />
         <Link
           to="/"
           className="absolute left-[2rem] top-[3rem] flex items-center gap-2 text-blue-70"
@@ -117,6 +148,8 @@ const Login = () => {
                 Forgot Password?
               </a>
             </div>
+            {error && <div className="text-red-600 font-poppins">{error}</div>}{" "}
+            {/* Display error message */}
             <button
               className="flex items-center justify-center gap-2 rounded-md w-full py-2 mt-2 bg-blue-70 text-white disabled:bg-slate-400 disabled:cursor-not-allowed transition-all"
               disabled={isLoading}
@@ -213,11 +246,18 @@ const Login = () => {
                   Forgot Password?
                 </a>
               </div>
+              {error && (
+                <div className="text-red-600 font-poppins">{error}</div>
+              )}{" "}
+              {/* Display error message */}
               <button
-                type="submit"
-                className="bg-blue-70 text-white font-poppins rounded-md w-full py-2 mt-2"
+                className="flex items-center justify-center gap-2 rounded-md w-full py-2 mt-2 bg-blue-70 text-white disabled:bg-slate-400 disabled:cursor-not-allowed transition-all"
+                disabled={isLoading}
               >
-                Login
+                {isLoading && (
+                  <CgSpinner className="animate-spin text-[1.37rem]" />
+                )}
+                <span className={`font-poppins `}>Login</span>
               </button>
             </form>
             <span className="pt-4 font-montserrat text-[0.9rem]">
