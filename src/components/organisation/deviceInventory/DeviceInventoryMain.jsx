@@ -1,9 +1,9 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
+import { useNavigate } from "react-router-dom";
 import requestClient from "../../../../axios/axiosRequest";
 import deviceEmptyImg from "../../../assets/images/emptydevice.svg";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DeviceInventoryOverview = () => {
   const [devices, setDevices] = useState([]);
@@ -18,7 +18,7 @@ const DeviceInventoryOverview = () => {
         const response = await requestClient.get("/sub-admin/devices");
         const devices = response.data.devices;
         setDevices(devices);
-        console.log(devices)
+        console.log(devices);
         setFilteredDevices(devices);
         setDeviceCount(devices.length);
         setLoading(false);
@@ -31,16 +31,9 @@ const DeviceInventoryOverview = () => {
     getDevices();
   }, []);
 
-  // const getDevice = async () => {
-  //   try {
-  //             const response = await requestClient.get(`/sub-admin/device?id=${}`);
-  //       const device = response.data.device;
-  //   }
-  // }
-
-  const handleViewDetails = (deviceId) => {
-    navigate(`/device/${deviceId}`);
-  };
+const handleViewDetails = (deviceId) => {
+  navigate(`/organization/device-management/device/${deviceId}`);
+};
 
   const columns = [
     {

@@ -67,12 +67,6 @@ function App() {
         {
           path: "device-maintenance",
           element: <DeviceManagementMain />,
-          children: [
-            {
-              path: "device/:id",
-              element: <DeviceDetail />,
-            },
-          ],
         },
         {
           path: "help-and-support",
@@ -173,6 +167,10 @@ function App() {
           element: <LogOutMain />,
         },
       ],
+    },
+    {
+      path: "/organization/device-management/device/:id",
+      element: <DeviceDetail />,
     },
   ]);
   return (
