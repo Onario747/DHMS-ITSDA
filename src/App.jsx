@@ -7,14 +7,18 @@ import AlertMain from "./components/organisation/AlertMain";
 import DashboardMain from "./components/organisation/DashboardMain";
 import DeviceManagementMain from "./components/organisation/DeviceManagementMain";
 import HelpAndSupportMain from "./components/organisation/HelpAndSupportMain";
+import StaffMaintenanceRequests from "./components/organisation/MaintenanceRequetsMain";
 import StaffManagementMain from "./components/organisation/StaffManagementMain";
-import UacMain from "./components/organisation/UacMain";
 import DeviceInventoryMain from "./components/staff/DeviceInventoryMain";
 import LogOutMain from "./components/staff/LogOutMain";
 import MaintenanceMain from "./components/staff/MaintenanceMain";
 import NotificationMain from "./components/staff/NotificationMain";
 import StaffDashboardMain from "./components/staff/StaffDashboardMain";
+import MaintenanceRequestMain from "./components/superAdmin/MaintenanceMain";
+import OrganizationMain from "./components/superAdmin/OrganizationMain";
+import StaffMain from "./components/superAdmin/StaffMain";
 import SuperAdminDashboardMain from "./components/superAdmin/SuperAdminDashoardMain";
+import TechnicianMain from "./components/superAdmin/TechnicianMain";
 import MaintenanceRequestsMain from "./components/Technician/MaintenanceRequestsMain";
 import TechnicianDashboardMain from "./components/Technician/TechnicianDashboardMain";
 import OrganizationDashboard from "./pages/dashboards/OrganizationDashboard";
@@ -26,6 +30,8 @@ import NoPage from "./pages/NoPage";
 import SignUp from "./pages/SignUp";
 import SuperAdminLogin from "./pages/SuperAdminLogin";
 import TechnicianLogin from "./pages/TechnicianLogin";
+import FinancesMain from "./components/superAdmin/FinancesMain";
+import DeviceDetail from "./components/organisation/deviceInventory/DeviceDetails";
 
 function App() {
   const router = createBrowserRouter([
@@ -61,6 +67,12 @@ function App() {
         {
           path: "device-maintenance",
           element: <DeviceManagementMain />,
+          children: [
+            {
+              path: "device/:id",
+              element: <DeviceDetail />,
+            },
+          ],
         },
         {
           path: "help-and-support",
@@ -71,8 +83,8 @@ function App() {
           element: <StaffManagementMain />,
         },
         {
-          path: "user-access-control",
-          element: <UacMain />,
+          path: "maintenance-requests",
+          element: <StaffMaintenanceRequests />,
         },
         {
           path: "alerts",
@@ -119,20 +131,24 @@ function App() {
           element: <SuperAdminDashboardMain />,
         },
         {
-          path: "create-technician",
-          element: <DeviceInventoryMain />,
+          path: "technician",
+          element: <TechnicianMain />,
         },
         {
-          path: "staffs-organization",
-          element: <MaintenanceMain />,
+          path: "organizations",
+          element: <OrganizationMain />,
         },
         {
-          path: "registered-devices",
-          element: <HelpAndSupportMain />,
+          path: "maintenance",
+          element: <MaintenanceRequestMain />,
         },
         {
-          path: "device-count",
-          element: <NotificationMain />,
+          path: "staff",
+          element: <StaffMain />,
+        },
+        {
+          path: "finances",
+          element: <FinancesMain />,
         },
         {
           path: "log-out",

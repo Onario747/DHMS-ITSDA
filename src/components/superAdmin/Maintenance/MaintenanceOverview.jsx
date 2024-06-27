@@ -1,7 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-// import axios from "axios";
 import requestClient from "../../../../axios/axiosRequest";
 
 import deviceEmptyImg from "../../../assets/images/emptydevice.svg";
@@ -11,17 +10,13 @@ const MaintenanceOverview = () => {
   const [pending, setPending] = useState([]);
   const [ongoing, setOngoing] = useState([]);
   const [completed, setCompleted] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRequests = async () => {
       try {
-        const response = await requestClient.get(
-          "/staff/maintenance"
-        );
+        const response = await requestClient.get("/super-admin/maintenance");
         const requestData = response.data.requests;
-        console.log(requestData);
         setRequests(requestData);
 
         const pendingRequests = requestData.filter(
@@ -48,11 +43,6 @@ const MaintenanceOverview = () => {
     getRequests();
   }, []);
 
-  const handleRequestMaintenance = (deviceId, action) => {
-    console.log(
-      `Request maintenance for device ID: ${deviceId}, action: ${action}`
-    );
-  };
 
   const getColumns = () => [
     {
@@ -69,22 +59,6 @@ const MaintenanceOverview = () => {
       name: "Status",
       selector: (row) => row.status || "N/A",
       sortable: true,
-    },
-    {
-      name: "Edit",
-      cell: (row) => (
-        <div className="flex gap-2">
-          <button
-            className="bg-blue-500 text-white px-2 py-1 rounded-md font-poppins"
-            onClick={() => handleRequestMaintenance(row.setupId, "done")}
-          >
-            Edit
-          </button>
-        </div>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
     },
   ];
 
@@ -138,4 +112,3 @@ const MaintenanceOverview = () => {
 };
 
 export default MaintenanceOverview;
-

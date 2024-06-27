@@ -1,23 +1,33 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import requestClient from "../../../axios/axiosRequest";
 import deviceImg from "../../assets/images/device.svg";
 import programmingImg from "../../assets/images/programming.svg";
 import AnalyticCards from "./dashboard/AnalyticsCard";
 
 const StaffDashboardMain = () => {
+  const [profileName, setProfileName] = useState("");
 
+  const fetchStaffProfile = async () => {
+    try {
+      const response = await requestClient("/staff/profile");
+      const profile = response.data.profile.name;
+      setProfileName(profile);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchStaffProfile();
+  }, []);
   return (
     <section className="w-full pt-4">
       <div className="flex items-center justify-between pb-[1.9rem] w-full">
         <div className="flex gap-2">
-          <img
-            width="35"
-            height="30"
-            src="https://img.icons8.com/emoji/48/waving-hand-emoji.png"
-            alt="waving-hand-emoji"
-          />
-          <h1 className="font-montserrat font-bold text-[1.7rem] text-blue-70">
-            Welcome Back, Staff
+          <h1 className="font-montserrat font-bold text-[1.7rem] text-black">
+            Welcome Back {""}
+            <span className="text-blue-70">{profileName}</span>
           </h1>
         </div>
         <button className="bg-blue-70 text-white p-2 font-poppins rounded-md">

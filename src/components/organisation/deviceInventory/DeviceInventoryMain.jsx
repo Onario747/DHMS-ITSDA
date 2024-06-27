@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import requestClient from "../../../../axios/axiosRequest";
 import deviceEmptyImg from "../../../assets/images/emptydevice.svg";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DeviceInventoryOverview = () => {
@@ -10,6 +10,7 @@ const DeviceInventoryOverview = () => {
   const [filteredDevices, setFilteredDevices] = useState([]);
   const [deviceCount, setDeviceCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getDevices = async () => {
@@ -17,24 +18,28 @@ const DeviceInventoryOverview = () => {
         const response = await requestClient.get("/sub-admin/devices");
         const devices = response.data.devices;
         setDevices(devices);
+        console.log(devices)
         setFilteredDevices(devices);
-        setDeviceCount(devices.length); // Set the device count
-        setLoading(false); // Set loading to false after data is fetched
-        console.log(response.data);
-        console.log(devices);
+        setDeviceCount(devices.length);
+        setLoading(false);
       } catch (error) {
         console.error("error", error);
-        setLoading(false); // Ensure loading is set to false in case of an error
+        setLoading(false);
       }
     };
 
     getDevices();
   }, []);
 
-  const handleRequestMaintenance = (deviceId) => {
-    // Add logic to handle maintenance request here
-    console.log(`Request maintenance for device ID: ${deviceId}`);
-    // Example: Call an API to request maintenance
+  // const getDevice = async () => {
+  //   try {
+  //             const response = await requestClient.get(`/sub-admin/device?id=${}`);
+  //       const device = response.data.device;
+  //   }
+  // }
+
+  const handleViewDetails = (deviceId) => {
+    navigate(`/device/${deviceId}`);
   };
 
   const columns = [
@@ -73,7 +78,7 @@ const DeviceInventoryOverview = () => {
       cell: (row) => (
         <button
           className="bg-blue-70 text-white px-2 py-1 rounded-md font-poppins"
-          onClick={() => handleRequestMaintenance(row.setupId)}
+          onClick={() => handleViewDetails(row._id)}
         >
           Details
         </button>
@@ -113,10 +118,10 @@ const DeviceInventoryOverview = () => {
         </div>
       ) : devices.length > 0 ? (
         <div className="flex flex-col w-full gap-2 pt-4">
-          <Tabs defaultValue="organizations" className="">
-            <TabsList>
-              <TabsTrigger value="organizations">Organizations</TabsTrigger>
+          <Tabs defaultValue="staffs" className="">
+            <TabsList className="bg-gray-300">
               <TabsTrigger value="staffs">Staffs</TabsTrigger>
+              <TabsTrigger value="organizations">Organizations</TabsTrigger>
             </TabsList>
             <TabsContent value="organizations">
               No Device assigned to any organization
@@ -125,7 +130,6 @@ const DeviceInventoryOverview = () => {
               <DataTable
                 columns={columns}
                 data={filteredDevices}
-                selectableRows
                 fixedHeader
                 pagination
                 striped

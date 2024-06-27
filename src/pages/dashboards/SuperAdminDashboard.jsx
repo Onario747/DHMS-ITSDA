@@ -14,23 +14,28 @@ const SuperAdminDashboard = () => {
     { icon: <RiDashboardFill />, title: "Dashboard", path: "dashboard" },
     {
       icon: <FaUsers />,
-      title: "Create Technician",
-      path: "create-technician",
+      title: "Technicians",
+      path: "technician",
     },
     {
       icon: <GrHostMaintenance />,
-      title: "List of Organizations",
-      path: "maintenance",
+      title: "Organizations",
+      path: "organizations",
     },
     {
       icon: <SiOpenaccess />,
-      title: "List of Staffs",
-      path: "help-and-support",
+      title: "Staffs",
+      path: "staff",
     },
     {
       icon: <IoNotifications />,
-      title: "Device Count",
-      path: "notifications",
+      title: "Maintenance",
+      path: "maintenance",
+    },
+    {
+      icon: <IoNotifications />,
+      title: "Finances",
+      path: "finances",
     },
     { icon: <FaSignOutAlt />, title: "Log Out", path: "log-out" },
   ];

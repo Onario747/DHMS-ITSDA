@@ -1,7 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-// import axios from "axios";
 import requestClient from "../../../../axios/axiosRequest";
 
 import deviceEmptyImg from "../../../assets/images/emptydevice.svg";
@@ -11,17 +10,15 @@ const MaintenanceOverview = () => {
   const [pending, setPending] = useState([]);
   const [ongoing, setOngoing] = useState([]);
   const [completed, setCompleted] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRequests = async () => {
       try {
         const response = await requestClient.get(
-          "/staff/maintenance"
+          "/sub-admin/maintenance-request"
         );
         const requestData = response.data.requests;
-        console.log(requestData);
         setRequests(requestData);
 
         const pendingRequests = requestData.filter(
@@ -49,9 +46,11 @@ const MaintenanceOverview = () => {
   }, []);
 
   const handleRequestMaintenance = (deviceId, action) => {
+    // Add logic to handle maintenance request here
     console.log(
       `Request maintenance for device ID: ${deviceId}, action: ${action}`
     );
+    // Example: Call an API to request maintenance
   };
 
   const getColumns = () => [
@@ -138,4 +137,3 @@ const MaintenanceOverview = () => {
 };
 
 export default MaintenanceOverview;
-

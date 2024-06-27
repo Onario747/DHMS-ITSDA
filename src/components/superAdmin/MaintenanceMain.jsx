@@ -1,5 +1,4 @@
-import MaintenanceOverview from "./Maintenance Overview/MaintenanceOverview";
-import RequestMaintenanceModal from "./Maintenance Overview/RequestMaintenanceModal";
+import MaintenanceOverview from "./Maintenance/MaintenanceOverview";
 
 const MaintenanceMain = () => {
   return (
@@ -10,14 +9,19 @@ const MaintenanceMain = () => {
             Maintenance Requests
           </h1>
           <p className="font-poppins text-[0.8rem] text-gray-400">
-            You have not made any maintenance requests yet
+            List of maintenance requests by organizations and staff
           </p>
         </div>
-        <RequestMaintenanceModal />
+        <div className="flex items-center gap-2">
+          <span className="font-poppins text-[0.9rem] text-gray-500">
+            Requests
+          </span>
+          <span className="p-2 bg-red-400 text-white rounded-md">0</span>
+        </div>
       </div>
       <MaintenanceOverview />
     </section>
   );
-};
+}
 
-export default MaintenanceMain;
+export default MaintenanceMain

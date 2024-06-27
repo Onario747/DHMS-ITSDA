@@ -41,8 +41,8 @@ const OrganizationDashboard = () => {
     },
     {
       icon: <SiOpenaccess />,
-      title: "User Access Control",
-      path: "user-access-control",
+      title: "Maintenance Requests",
+      path: "maintenance-requests",
     },
     { icon: <IoNotifications />, title: "Alerts", path: "alerts" },
     {
@@ -110,11 +110,11 @@ const OrganizationDashboard = () => {
                 <SheetContent>
                   <SheetHeader>
                     <SheetTitle>Dashboard</SheetTitle>
-                    {
-                      dashboardLinks.map((item, index) => (
-                        <Link key={index} to={item.path}>{item.title}</Link>
-                      ))
-                    }
+                    {dashboardLinks.map((item, index) => (
+                      <Link key={index} to={item.path}>
+                        {item.title}
+                      </Link>
+                    ))}
                   </SheetHeader>
                 </SheetContent>
               </Sheet>

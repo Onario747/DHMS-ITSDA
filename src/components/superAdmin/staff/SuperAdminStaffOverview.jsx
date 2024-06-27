@@ -4,25 +4,26 @@ import DataTable from "react-data-table-component";
 import requestClient from "../../../../axios/axiosRequest";
 import deviceEmptyImg from "../../../assets/icons/technician.svg";
 
-const StaffOverview = () => {
+const SuperAdminStaffOverview = () => {
   const [loading, setLoading] = useState(true);
   const [staff, setStaffs] = useState([]);
 
   useEffect(() => {
-    const getTechnicians = async () => {
+    const getStaffs = async () => {
       setLoading(true);
       try {
-        const response = await requestClient.get("/sub-admin/staffs");
+        const response = await requestClient.get("/super-admin/staffs");
         console.log(response.data);
         const staffData = response.data.staffs;
         setStaffs(staffData);
+        console.log(staffData);
       } catch (error) {
         console.error("Error", error);
       } finally {
         setLoading(false);
       }
     };
-    getTechnicians();
+    getStaffs();
   }, []);
 
   const getColumns = () => [
@@ -76,4 +77,4 @@ const StaffOverview = () => {
   );
 };
 
-export default StaffOverview;
+export default SuperAdminStaffOverview;

@@ -4,18 +4,18 @@ import DataTable from "react-data-table-component";
 import requestClient from "../../../../axios/axiosRequest";
 import deviceEmptyImg from "../../../assets/icons/technician.svg";
 
-const StaffOverview = () => {
+const OrganizationsOverview = () => {
   const [loading, setLoading] = useState(true);
-  const [staff, setStaffs] = useState([]);
+  const [technicians, setTechnicians] = useState([]);
 
   useEffect(() => {
     const getTechnicians = async () => {
       setLoading(true);
       try {
-        const response = await requestClient.get("/sub-admin/staffs");
+        const response = await requestClient.get("/super-admin/technicians");
         console.log(response.data);
-        const staffData = response.data.staffs;
-        setStaffs(staffData);
+        const techniciansData = response.data.technicians;
+        setTechnicians(techniciansData);
       } catch (error) {
         console.error("Error", error);
       } finally {
@@ -41,6 +41,19 @@ const StaffOverview = () => {
       selector: (row) => row.phone || "N/A",
       sortable: true,
     },
+    // {
+    //   name: "Delete",
+    //   cell: (row) => (
+    //     <div className="flex gap-2">
+    //       <button className="bg-blue-500 text-white px-2 py-1 rounded-md font-poppins">
+    //         Delete
+    //       </button>
+    //     </div>
+    //   ),
+    //   ignoreRowClick: true,
+    //   allowOverflow: true,
+    //   button: true,
+    // },
   ];
 
   return (
@@ -51,11 +64,11 @@ const StaffOverview = () => {
             Loading...
           </span>
         </div>
-      ) : staff.length > 0 ? (
+      ) : technicians.length > 0 ? (
         <div className="pt-[2rem]">
           <DataTable
             columns={getColumns()}
-            data={staff}
+            data={technicians}
             fixedHeader
             pagination
             striped
@@ -76,4 +89,4 @@ const StaffOverview = () => {
   );
 };
 
-export default StaffOverview;
+export default OrganizationsOverview;

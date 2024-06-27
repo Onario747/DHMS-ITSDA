@@ -114,7 +114,6 @@ const DeviceInventoryOverview = () => {
           <DataTable
             columns={columns}
             data={filteredDevices}
-            selectableRows
             fixedHeader
             pagination
             striped

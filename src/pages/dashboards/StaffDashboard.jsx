@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import { useEffect, useState } from "react";
 import { FaSignOutAlt, FaUsers } from "react-icons/fa";
 import { GrHostMaintenance } from "react-icons/gr";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
@@ -14,9 +15,9 @@ import { IoNotifications, IoSearchOutline } from "react-icons/io5";
 import { RiDashboardFill } from "react-icons/ri";
 import { SiOpenaccess } from "react-icons/si";
 import { NavLink, Outlet } from "react-router-dom";
+import requestClient from "../../../axios/axiosRequest";
 import logo from "../../assets/images/itsalogo.png";
 import pfp from "../../assets/images/pfpf.jpg";
-import { useAdmin } from "../../context/AdminContext";
 // import { Toaster } from "sonner";
 
 const StaffDashboard = () => {
@@ -41,7 +42,21 @@ const StaffDashboard = () => {
     { icon: <FaSignOutAlt />, title: "Log Out", path: "log-out" },
   ];
 
-  const { adminName } = useAdmin();
+  const [profileName, setProfileName] = useState("");
+
+  const fetchStaffProfile = async () => {
+    try {
+      const response = await requestClient("/staff/profile");
+      const profile = response.data.profile.name;
+      setProfileName(profile);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStaffProfile();
+  }, []);
 
   return (
     <section className="max-container flex">
@@ -97,7 +112,7 @@ const StaffDashboard = () => {
                   <div className="flex items-center gap-2">
                     <div className="flex flex-col items-start">
                       <span className="font-poppins leading-none m-0">
-                        {adminName}
+                        {profileName}
                       </span>
                       <span className="text-[0.9rem] font-poppins leading-none m-0 text-gray-500">
                         staff
