@@ -199,7 +199,7 @@ const OrganizationDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="pt-[6rem] max-md:pt-[8rem] px-[2rem] h-full w-full">
+        <div className="pt-[6rem] max-md:pt-[8rem] px-[2rem] h-dvh w-full">
           <Outlet />
         </div>
       </div>

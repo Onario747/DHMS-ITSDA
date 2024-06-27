@@ -9,7 +9,7 @@ const MaintenanceRequestsMain = () => {
             Maintenance Requests
           </h1>
           <p className="font-poppins text-[0.8rem] text-gray-400">
-            You have not made any maintenance requests yet
+            View all maintenance requests made by organization&apos;s and staffs
           </p>
         </div>
         <span className="flex items-center gap-2">

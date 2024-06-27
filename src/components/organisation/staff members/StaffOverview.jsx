@@ -272,7 +272,6 @@ const StaffOverview = ({ staffMembers, setStaffMembers, staffCount }) => {
               striped
               pointerOnHover
               responsive
-              className=""
               highlightOnHover
             />
           </div>
