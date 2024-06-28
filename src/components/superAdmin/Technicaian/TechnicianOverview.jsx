@@ -42,19 +42,11 @@ const TechnicianOverview = () => {
       selector: (row) => row.phone || "N/A",
       sortable: true,
     },
-    // {
-    //   name: "Delete",
-    //   cell: (row) => (
-    //     <div className="flex gap-2">
-    //       <button className="bg-blue-500 text-white px-2 py-1 rounded-md font-poppins">
-    //         Delete
-    //       </button>
-    //     </div>
-    //   ),
-    //   ignoreRowClick: true,
-    //   allowOverflow: true,
-    //   button: true,
-    // },
+    {
+      name: "Location",
+      selector: (row) => row.state + " " + row.lga || "N/A",
+      sortable: true,
+    },
   ];
 
   return (
